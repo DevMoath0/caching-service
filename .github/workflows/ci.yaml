@@ -70,7 +70,7 @@ jobs:
 
       - name: Check /actuator/health
         run: |
-          curl -f http://localhost:8087/actuator/health || (echo "❌ Actuator health check failed" && exit 1)
+          curl -f http://localhost:8087/actuator/health/readiness || (echo "❌ Actuator health check failed" && exit 1)
 
       - name: Verify Redis is running
         run: |
