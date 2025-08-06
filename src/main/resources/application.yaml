@@ -30,6 +30,10 @@ management:
   health:
     livenessState.enabled: true
     readinessState.enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, info
 
 redisapp:
   config:
