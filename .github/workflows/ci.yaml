@@ -68,9 +68,8 @@ jobs:
           nohup ./mvnw spring-boot:run -Dspring-boot.run.profiles=ci &
           sleep 20
 
-      - name: Check /actuator/health
-        run: |
-          curl -f http://localhost:8087/actuator/health/readiness || (echo "❌ Actuator health check failed" && exit 1)
+      - name: Health check (actuator)
+        run: curl -f http://localhost:8087/api/v1/actuator/health || (echo "❌ Actuator health check failed" && exit 1)
 
       - name: Verify Redis is running
         run: |
