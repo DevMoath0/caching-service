@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  redis:
+    container_name: cached-user-service-redis-db
+    image: redis:latest
+    ports:
+      - "6378:6379"
+    restart: unless-stopped
+
+  mysql:
+    container_name: cached-user-service-mysql-db
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: redis_demo
+    ports:
+      - "3310:3306"
+    restart: unless-stopped

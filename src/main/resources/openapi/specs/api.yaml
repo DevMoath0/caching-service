@@ -1,0 +1,215 @@
+openapi: 3.0.3
+info:
+  title: Swagger AirFlow demo - OpenAPI 3.0
+  version: 1.0.0
+servers:
+  - url: http://localhost:8057
+paths:
+  /user:
+    post:
+      parameters:
+        - $ref: '#/components/parameters/user-id'
+      operationId: userPost
+      summary: Create user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /user/{id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/user-id'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: userGet
+      summary: Get user
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        email:
+          type: string
+        mobileNumber:
+          type: string
+
+    CreateUserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mobileNumber:
+          type: string
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        email:
+          type: string
+        mobileNumber:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        key:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field'
+    Field:
+      type: object
+      properties:
+        field:
+          type: string
+        objectName:
+          type: string
+        message:
+          type: string
+        code:
+          type: string
+    PageRequest:
+      title: PageRequest
+      type: object
+      properties:
+        pageNumber:
+          minimum: 0
+          exclusiveMinimum: false
+          default: 0
+          type: integer
+          description: Page number which should be returned
+          example: 0
+          format: int32
+        pageSize:
+          maximum: 20
+          exclusiveMaximum: false
+          minimum: 1
+          exclusiveMinimum: false
+          default: 10
+          type: integer
+          description: Number of records which will be returned on the page
+          example: 10
+          format: int32
+    PageResponse:
+      title: PageResponse
+      type: object
+      required:
+        - pageNumber
+        - pageSize
+      properties:
+        pageNumber:
+          type: integer
+          description: Page number which is returned
+          example: 0
+          format: int32
+        pageSize:
+          type: integer
+          description: Number of records returned on the page
+          example: 10
+          format: int32
+        totalPages:
+          type: integer
+          description: Total number of pages
+          example: 1
+          format: int64
+        totalRecords:
+          type: integer
+          description: Total number of records
+          example: 10
+          format: int64
+  parameters:
+    Authorization:
+      name: Authorization
+      in: header
+      required: true
+      description: Bearer Access Token
+      schema:
+        type: string
+
+    user-id:
+      name: user-id
+      in: header
+      description: User identifier
+      required: true
+      schema:
+        type: string
+
+    page-number:
+      name: page_number
+      in: query
+      description: Page number which should be returned
+      example: 0
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        exclusiveMinimum: false
+        default: 0
+    page-size:
+      name: page_size
+      in: query
+      description: Number of records which will be returned on the page
+      example: 0
+      required: false
+      schema:
+        type: integer
+        format: int32
+        maximum: 20
+        exclusiveMaximum: false
+        minimum: 1
+        exclusiveMinimum: false
+        default: 20

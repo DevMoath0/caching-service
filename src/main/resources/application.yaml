@@ -1,0 +1,41 @@
+server:
+  port: 8087
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: caching
+
+  datasource:
+    name: ${DATABASE_NAME:redis_demo}
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3310/redis_demo}
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:root}
+    driverClassName: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+
+  data:
+    redis:
+      host: localhost
+      port: 6378
+      ssl:
+        enabled: false
+      timeout: 250ms
+
+
+management:
+  endpoint.health.probes.enabled: true
+  health:
+    livenessState.enabled: true
+    readinessState.enabled: true
+
+redisapp:
+  config:
+    services-cache:
+      user-details:
+        name: userDetails
+        expire-duration: 30s
+        initial-capacity: 20
+        maximum-size: 150
