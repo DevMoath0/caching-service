@@ -31,7 +31,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    public final ResponseEntity<ErrorResponse> handleRedisManagementBusinessException(CachingManagementBusinessException redisException) {
+    public final ResponseEntity<ErrorResponse> handleCachingManagementBusinessException(CachingManagementBusinessException redisException) {
         log.error("Global exception handler with message '{}'", redisException.getMessage());
         return new ResponseEntity<>(new ErrorResponse().error(new Error().code(CachingError.UNKNOWN_ERROR.getCode())
                 .message(LocaleResourceUtility.getMessage(redisException.getMessage(), CachingError.UNKNOWN_ERROR.getCode()))
